@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { supabase } from "./supabase";
 import Login from "./auth/Login";
 import Dashboard from "./pages/Dashboard";
-import DragSignatureBox from "./components/DragSignatureBox";
 import SignDocument from "./pages/SignDocument";
 
 import {
@@ -15,7 +14,6 @@ import {
 export default function App() {
   const [session, setSession] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [mode, setMode] = useState<"dashboard" | "drag">("dashboard");
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -46,31 +44,7 @@ export default function App() {
         {!session && <Route path="*" element={<Login />} />}
 
         {/* 🔹 DASHBOARD */}
-        {session && (
-          <Route
-            path="/"
-            element={
-              mode === "drag" ? (
-                <div style={{ padding: "20px" }}>
-                  <button onClick={() => setMode("dashboard")}>
-                    ← Back
-                  </button>
-                  <DragSignatureBox />
-                </div>
-              ) : (
-                <div>
-                  <button
-                    style={{ margin: "10px" }}
-                    onClick={() => setMode("drag")}
-                  >
-                    Start Drag Test
-                  </button>
-                  <Dashboard />
-                </div>
-              )
-            }
-          />
-        )}
+        {session && <Route path="/" element={<Dashboard />} />}
 
         {/* 🔹 FALLBACK */}
         <Route path="*" element={<Navigate to="/" />} />

@@ -100,7 +100,7 @@ export default function SignDocument() {
     }
 
     const signedBytes = await pdfDoc.save();
-    const blob = new Blob([signedBytes], { type: "application/pdf" });
+    const blob = new Blob([new Uint8Array (signedBytes)], { type: "application/pdf" });
 
     const url = URL.createObjectURL(blob);
     window.open(url);

@@ -144,7 +144,7 @@ export default function Dashboard() {
 
     const signedBytes = await pdfDoc.save();
 
-    const blob = new Blob([signedBytes], { type: "application/pdf" });
+    const blob = new Blob([new Uint8Array(signedBytes)], { type: "application/pdf" });
     const signedName = `signed-${Date.now()}.pdf`;
 
     await supabase.storage
